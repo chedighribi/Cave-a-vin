@@ -1,4 +1,4 @@
-package fr.eni.cave_a_vin;
+package fr.eni.cave;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
