@@ -92,27 +92,41 @@ assertThat(bouteilleDB.getRegion()).isNotNull();
 assertThat(bouteilleDB.getRegion()).isEqualTo(paysDeLaLoire);
 log.info(bouteilleDB.toString());
 }
-/*
- * @Test public void test_delete() { final Bouteille bouteille = Bouteille
- * .builder() .nom("Blanc du DOMAINE ENI Ecole") .millesime("2022")
- * .prix(23.95f) .quantite(1298) .build(); //Association ManyToOne
- * bouteille.setRegion(paysDeLaLoire); bouteille.setCouleur(blanc); //Appel du
- * comportement final Bouteille bouteilleDB =entityManager.persist(bouteille);
- * entityManager.flush(); //Vérification de l'identifiant
- * assertThat(bouteilleDB.getId()).isGreaterThan(0);
- * assertThat(bouteilleDB.getCouleur()).isNotNull();
- * assertThat(bouteilleDB.getCouleur()).isEqualTo(blanc);
- * assertThat(bouteilleDB.getRegion()).isNotNull();
- * assertThat(bouteilleDB.getRegion()).isEqualTo(paysDeLaLoire); //Appel du
- * comportement bouteilleRepository.delete(bouteilleDB); //Vérification que
- * l'entité a été supprimée final Bouteille bouteilleDB2 =
- * entityManager.find(Bouteille.class, bouteilleDB.getId());
- * assertNull(bouteilleDB2); //Vérifier que les éléments associés sont toujours
- * présents - PAS de cascade final List<Region> regions =
- * regionRepository.findAll(); assertThat(regions).isNotNull();
- * assertThat(regions).isNotEmpty(); assertThat(regions.size()).isEqualTo(3);
- * final List<Couleur> couleurs = couleurRepository.findAll();
- * assertThat(couleurs).isNotNull(); assertThat(couleurs).isNotEmpty();
- * assertThat(couleurs.size()).isEqualTo(3); }
- */
+
+@Test
+public void test_delete() {
+final Bouteille bouteille = Bouteille
+.builder()
+.nom("Blanc du DOMAINE ENI Ecole")
+.millesime("2022")
+.prix(23.95f)
+.quantite(1298)
+.build();
+//Association ManyToOne
+bouteille.setRegion(paysDeLaLoire);
+bouteille.setCouleur(blanc);
+//Appel du comportement
+final Bouteille bouteilleDB =entityManager.persist(bouteille);
+entityManager.flush();
+//Vérification de l'identifiant
+assertThat(bouteilleDB.getId()).isGreaterThan(0);
+assertThat(bouteilleDB.getCouleur()).isNotNull();
+assertThat(bouteilleDB.getCouleur()).isEqualTo(blanc);
+assertThat(bouteilleDB.getRegion()).isNotNull();
+assertThat(bouteilleDB.getRegion()).isEqualTo(paysDeLaLoire);
+//Appel du comportement
+bouteilleRepository.delete(bouteilleDB);
+//Vérification que l'entité a été supprimée
+final Bouteille bouteilleDB2 = entityManager.find(Bouteille.class, bouteilleDB.getId());
+assertNull(bouteilleDB2);
+//Vérifier que les éléments associés sont toujours présents - PAS de cascade
+final List<Region> regions = regionRepository.findAll();
+assertThat(regions).isNotNull();
+assertThat(regions).isNotEmpty();
+assertThat(regions.size()).isEqualTo(3);
+final List<Couleur> couleurs = couleurRepository.findAll();
+assertThat(couleurs).isNotNull();
+assertThat(couleurs).isNotEmpty();
+assertThat(couleurs.size()).isEqualTo(3);
+}
 }
