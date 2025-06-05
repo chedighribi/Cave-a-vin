@@ -16,6 +16,7 @@ public class TestOneToManyUni {
 private TestEntityManager entityManager;
 @Autowired
 PanierRepository repository;
+
 @Test
 public void test_save_nouvelleLigne_nouveauPanier() {
 int qte = 4;
@@ -38,6 +39,7 @@ assertThat(panierDB.getLignesPanier()).isNotEmpty();
 assertThat(panierDB.getLignesPanier().size()).isEqualTo(1);
 log.info(panierDB.toString());
 }
+
 @Test
 public void test_save_nouvelleLigne_Panier() {
 final Panier panierDB = panierEnDB();
@@ -60,6 +62,7 @@ assertThat(panierDB2.getLignesPanier()).isNotEmpty();
 assertThat(panierDB2.getLignesPanier().size()).isEqualTo(2);
 log.info(panierDB2.toString());
 }
+
 @Test
 public void test_delete() {
 final Panier panierDB = panierEnDB();
@@ -81,6 +84,7 @@ LignePanier lpDB = entityManager.find(LignePanier.class, id);
 assertNull(lpDB);
 });
 }
+
 @Test
 public void test_orphanRemoval() {
 final Panier panierDB = panierEnDB();
@@ -104,6 +108,7 @@ LignePanier lpDB = entityManager.find(LignePanier.class, id);
 assertNull(lpDB);
 });
 }
+
 private Panier panierEnDB() {
 final Panier panier = new Panier();
 final LignePanier lp = LignePanier
