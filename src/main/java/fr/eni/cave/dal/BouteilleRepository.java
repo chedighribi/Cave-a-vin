@@ -10,4 +10,5 @@ import fr.eni.cave.bo.vin.Region;
 public interface BouteilleRepository extends JpaRepository<Bouteille, Integer>{
 	List<Bouteille> findByRegion(@Param("r") Region r);
 	List<Bouteille> findByCouleur(@Param("c") Couleur c);
+	Bouteille findByNom(String nom);
 }
