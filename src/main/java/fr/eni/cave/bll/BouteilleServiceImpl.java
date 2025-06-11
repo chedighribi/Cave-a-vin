@@ -89,4 +89,59 @@ public class BouteilleServiceImpl implements BouteilleService {
 		// Identifiant correspond à aucun enregistrement en base
 		throw new RuntimeException("Aucune couleur de vin ne correspond");
 	}
+	
+	public Bouteille ajouterBouteille(Bouteille bouteille) {
+		try {
+			return bRepository.save(bouteille);
+			} catch (RuntimeException e) {
+			throw new RuntimeException("Impossible de sauver - " + bouteille.toString());
+			}		
+	}
+	private void  validerBouteille(Bouteille bouteille) {
+		if (bouteille == null) {
+			throw new RuntimeException("Bouteille est obligatoire");
+			}
+			if (bouteille.getCouleur() == null) {
+			throw new RuntimeException("Couleur est obligatoire");
+			}
+			if (bouteille.getRegion() == null) {
+			throw new RuntimeException("Région est obligatoire");
+			}
+			Integer idC = bouteille.getCouleur().getId();
+			if (idC == null) {
+			throw new RuntimeException("L'identifiant de la couleur est obligatoire");
+			}
+			Integer idR = bouteille.getRegion().getId();
+			if (idR == null) {
+			throw new RuntimeException("L'identifiant de la région est obligatoire");
+			}
+			Couleur cDB = validerCouleur(idC);
+			Region rDB = validerRegion(idR);
+			validerChaineNonNulle(bouteille.getNom(), "Le nom n'a pas été renseigné");
+			if (bouteille.getQuantite() <= 0) {
+			throw new RuntimeException("Le nombre de bouteilles doit être positif");
+			}
+			if (bouteille.getPrix() <= 0) {
+				throw new RuntimeException("Le prix doit être positif");
+				}
+				bouteille.setCouleur(cDB);
+				bouteille.setRegion(rDB);
+	}
+	private void validerChaineNonNulle(String chaine, String msgErreur) {
+		if (chaine == null || chaine.isBlank())
+		throw new RuntimeException(msgErreur);
+		}
+	
+	@Override
+	public void supprimer(int idBouteille) {
+	// Validation des données avant suppression
+	if (idBouteille <= 0) {
+	throw new RuntimeException("Identifiant inconnu");
+	}
+	try {
+	bRepository.deleteById(idBouteille);
+	} catch (RuntimeException e) {
+	throw new RuntimeException("Impossible de supprimer la bouteille (id : " + idBouteille + ")");
+	}
+	}
 }
