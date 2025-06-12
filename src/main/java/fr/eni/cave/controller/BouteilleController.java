@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.eni.cave.bll.BouteilleService;
 import fr.eni.cave.bo.vin.Bouteille;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -79,7 +80,7 @@ public class BouteilleController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> ajouterBouteille(@RequestBody Bouteille bouteille) {
+	public ResponseEntity<?> ajouterBouteille(@Valid @RequestBody Bouteille bouteille) {
 		try {
 			bService.ajouterBouteille(bouteille);
 			return ResponseEntity.ok(bouteille);
@@ -89,7 +90,7 @@ public class BouteilleController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> miseAJourBouteille(@RequestBody Bouteille bouteille) {
+	public ResponseEntity<?> miseAJourBouteille(@Valid @RequestBody Bouteille bouteille) {
 	try {
 	if (bouteille == null || bouteille.getId() == null || bouteille.getId() <= 0) {
 	return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
